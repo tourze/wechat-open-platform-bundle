@@ -1,0 +1,3 @@
+wchat_open_platform_controllers:
+  resource: '../../Controller/'
+  type: attribute
