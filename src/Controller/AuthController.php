@@ -21,7 +21,6 @@ use WechatOpenPlatformBundle\Request\CreatePreAuthCodeRequest;
 use WechatOpenPlatformBundle\Service\ApiService;
 use WechatOpenPlatformBundle\Service\AuthorizerService;
 use WeuiBundle\Service\NoticeService;
-use Yiisoft\Arrays\ArrayHelper;
 
 #[Route('/wechat-open-platform')]
 class AuthController extends AbstractController
@@ -59,7 +58,7 @@ class AuthController extends AbstractController
         $codeRequest = new CreatePreAuthCodeRequest();
         $codeRequest->setAccount($account);
         $codeResponse = $apiService->request($codeRequest);
-        $options['pre_auth_code'] = ArrayHelper::getValue($codeResponse, 'pre_auth_code');
+        $options['pre_auth_code'] = $codeResponse['pre_auth_code'] ?? null;
 
         $queries = \array_merge(
             $options,
