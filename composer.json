@@ -28,6 +28,8 @@
     "tourze/easy-admin-attribute": "0.0.*",
     "tourze/doctrine-snowflake-bundle": "0.0.*",
     "tourze/doctrine-async-bundle": "^0.0.6",
+    "tourze/doctrine-ip-bundle": "0.0.*",
+    "tourze/doctrine-timestamp-bundle": "0.0.*",
     "tourze/doctrine-track-bundle": "0.0.*",
     "tourze/http-client-bundle": "0.0.*",
     "tourze/weui-bundle": "0.0.*",
