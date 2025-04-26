@@ -4,7 +4,6 @@ namespace WechatOpenPlatformBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use DoctrineEnhanceBundle\Traits\PrimaryKeyAware;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Tourze\DoctrineIndexedBundle\Attribute\IndexColumn;
 use Tourze\DoctrineIpBundle\Attribute\CreateIpColumn;
@@ -17,7 +16,17 @@ use WechatOpenPlatformBundle\Repository\AuthCodeRepository;
 #[ORM\Table(name: 'wechat_open_platform_auth_code', options: ['comment' => '微信开放平台AuthCode'])]
 class AuthCode
 {
-    use PrimaryKeyAware;
+    #[ListColumn(order: -1)]
+    #[ExportColumn]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
+    private ?int $id = 0;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
