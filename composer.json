@@ -9,12 +9,14 @@
     "ext-simplexml": "*",
     "ext-mbstring": "*",
     "ext-openssl": "*",
+    "doctrine/collections": "^2.3",
     "nesbot/carbon": "^2.72 || ^3",
     "doctrine/dbal": "^4.0",
     "doctrine/doctrine-bundle": "^2.13",
     "doctrine/orm": "^2.20 || ^3.0",
     "doctrine/persistence": "^3.1 || ^4",
     "symfony/event-dispatcher": "^6.4",
+    "symfony/event-dispatcher-contracts": "^2.5 | ^3",
     "symfony/console": "^6.4",
     "symfony/config": "^6.4",
     "symfony/dependency-injection": "^6.4",
@@ -34,7 +36,10 @@
     "tourze/http-client-bundle": "0.0.*",
     "tourze/weui-bundle": "0.0.*",
     "tourze/arrayable": "0.0.*",
-    "yiisoft/json": "^1.0"
+    "tourze/json-rpc-core": "^0.0.6",
+    "yiisoft/json": "^1.0",
+    "psr/log": "^3|^2|^1",
+    "nzo/url-encryptor-bundle": "^6.4"
   },
   "autoload": {
     "psr-4": {
