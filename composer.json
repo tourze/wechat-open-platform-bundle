@@ -33,7 +33,7 @@
     "tourze/doctrine-ip-bundle": "0.0.*",
     "tourze/doctrine-timestamp-bundle": "0.0.*",
     "tourze/doctrine-track-bundle": "0.0.*",
-    "tourze/http-client-bundle": "0.0.*",
+    "tourze/http-client-bundle": "0.1.*",
     "tourze/weui-bundle": "0.0.*",
     "tourze/arrayable": "0.0.*",
     "tourze/json-rpc-core": "^0.0.6",
