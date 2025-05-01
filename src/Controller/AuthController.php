@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use WechatOpenPlatformBundle\Entity\Account;
 use WechatOpenPlatformBundle\Entity\ServerMessage;
 use WechatOpenPlatformBundle\Event\WechatOpenPlatformServerMessageResponseEvent;
-use WechatOpenPlatformBundle\Helper\XML;
 use WechatOpenPlatformBundle\Repository\ServerMessageRepository;
 use WechatOpenPlatformBundle\Request\CreatePreAuthCodeRequest;
 use WechatOpenPlatformBundle\Service\ApiService;

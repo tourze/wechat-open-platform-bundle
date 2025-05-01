@@ -4,9 +4,9 @@ namespace WechatOpenPlatformBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
+use Tourze\WechatHelper\Encryptor;
+use Tourze\WechatHelper\XML;
 use WechatOpenPlatformBundle\Entity\Account;
-use WechatOpenPlatformBundle\Helper\Encryptor;
-use WechatOpenPlatformBundle\Helper\XML;
 
 trait EncryptTrait
 {

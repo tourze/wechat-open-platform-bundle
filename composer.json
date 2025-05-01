@@ -36,6 +36,7 @@
     "tourze/http-client-bundle": "0.1.*",
     "tourze/weui-bundle": "0.0.*",
     "tourze/arrayable": "0.0.*",
+    "tourze/wechat-helper": "0.0.*",
     "tourze/json-rpc-core": "^0.0.6",
     "yiisoft/json": "^1.0",
     "psr/log": "^3|^2|^1",
