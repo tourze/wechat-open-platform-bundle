@@ -42,7 +42,8 @@
     "tourze/json-rpc-core": "^0.0.6",
     "tourze/symfony-cron-job-bundle": "0.1.*",
     "tourze/wechat-helper": "0.0.*",
-    "yiisoft/json": "^1.0"
+    "yiisoft/json": "^1.0",
+    "tourze/weui-bundle": "0.0.*"
   },
   "require-dev": {
     "phpstan/phpstan": "^2.1",
