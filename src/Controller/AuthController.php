@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Tourze\WechatHelper\XML;
 use WechatOpenPlatformBundle\Entity\Account;
 use WechatOpenPlatformBundle\Entity\ServerMessage;
 use WechatOpenPlatformBundle\Event\WechatOpenPlatformServerMessageResponseEvent;

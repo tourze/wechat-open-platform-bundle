@@ -17,7 +17,6 @@ use WechatOfficialAccountBundle\Entity\AuthLog;
 use WechatOfficialAccountBundle\Entity\User;
 use WechatOfficialAccountBundle\Enum\AuthType;
 use WechatOfficialAccountBundle\Enum\Language;
-use WechatOfficialAccountBundle\Repository\AuthLogRepository;
 use WechatOfficialAccountBundle\Repository\UserRepository;
 use WechatOfficialAccountBundle\Request\Jssdk\GetJsapiTicketRequest;
 use WechatOfficialAccountBundle\Request\User\GetUserBasicInfoRequest;
@@ -82,7 +81,6 @@ class OAuth2Controller extends AbstractController
         Request $request,
         OfficialAccountClient $client,
         UserRepository $userRepository,
-        AuthLogRepository $authLogRepository,
         EventDispatcherInterface $eventDispatcher,
         AccountRepository $componentAccountRepository,
         LoggerInterface $logger,
