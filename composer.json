@@ -40,7 +40,8 @@
     "tourze/json-rpc-core": "^0.0.6",
     "yiisoft/json": "^1.0",
     "psr/log": "^3|^2|^1",
-    "nzo/url-encryptor-bundle": "^6.4"
+    "nzo/url-encryptor-bundle": "^6.4",
+    "tourze/doctrine-indexed-bundle": "0.0.*"
   },
   "autoload": {
     "psr-4": {
