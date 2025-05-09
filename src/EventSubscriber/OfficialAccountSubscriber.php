@@ -6,7 +6,6 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use WechatOfficialAccountBundle\Entity\ServerMessage;
 use WechatOfficialAccountBundle\Event\WechatOfficialAccountServerMessageRequestEvent;
-use WechatOfficialAccountBundle\Service\UserService;
 use WechatOpenPlatformBundle\Event\WechatOpenPlatformServerMessageResponseEvent;
 use WechatOpenPlatformBundle\Service\AuthorizerService;
 
