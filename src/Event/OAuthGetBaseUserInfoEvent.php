@@ -4,14 +4,14 @@ namespace WechatOpenPlatformBundle\Event;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\EventDispatcher\Event;
+use Tourze\WechatOfficialAccountContracts\UserInterface;
 use WechatOfficialAccountBundle\Entity\Account;
-use WechatOfficialAccountBundle\Entity\User;
 
 class OAuthGetBaseUserInfoEvent extends Event
 {
     private Account $account;
 
-    private User $user;
+    private UserInterface $user;
 
     private ?Response $response = null;
 
@@ -25,12 +25,12 @@ class OAuthGetBaseUserInfoEvent extends Event
         $this->account = $account;
     }
 
-    public function getUser(): User
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    public function setUser(User $user): void
+    public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
