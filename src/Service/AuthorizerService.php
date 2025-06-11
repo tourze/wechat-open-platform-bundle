@@ -5,7 +5,7 @@ namespace WechatOpenPlatformBundle\Service;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Tourze\DoctrineAsyncInsertBundle\Service\AsyncInsertService;
+use Tourze\DoctrineAsyncInsertBundle\Service\AsyncInsertService as DoctrineService;
 use WechatOfficialAccountBundle\Entity\Account as OfficialAccount;
 use WechatOfficialAccountBundle\Repository\AccountRepository as OfficialAccountRepository;
 use WechatOpenPlatformBundle\Entity\Account;
@@ -20,7 +20,7 @@ class AuthorizerService
         private readonly ApiService $apiService,
         private readonly AuthorizerRepository $authorizerRepository,
         private readonly LoggerInterface $logger,
-        private readonly AsyncInsertService $doctrineService,
+        private readonly DoctrineService $doctrineService,
         private readonly OfficialAccountRepository $officialAccountRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
