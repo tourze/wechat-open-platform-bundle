@@ -40,7 +40,7 @@ trait EncryptTrait
             }
 
             return (array) $content;
-        } catch (\Exception $e) {
+        } catch  (\Throwable $e) {
             throw new BadRequestException(sprintf('Invalid message content:(%s) %s', $e->getCode(), $e->getMessage()), $e->getCode());
         }
     }
