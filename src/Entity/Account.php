@@ -13,30 +13,17 @@ use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\DoctrineTrackBundle\Attribute\TrackColumn;
 use Tourze\DoctrineUserBundle\Attribute\CreatedByColumn;
 use Tourze\DoctrineUserBundle\Attribute\UpdatedByColumn;
-use Tourze\EasyAdmin\Attribute\Action\Creatable;
-use Tourze\EasyAdmin\Attribute\Action\Deletable;
-use Tourze\EasyAdmin\Attribute\Action\Editable;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
-use Tourze\EasyAdmin\Attribute\Field\FormField;
-use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use WechatOfficialAccountBundle\Entity\AccessTokenAware;
 use WechatOpenPlatformBundle\Repository\AccountRepository;
 
 /**
  * @see https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/Before_Develop/component_verify_ticket.html
  */
-#[AsPermission(title: '开放平台应用')]
-#[Deletable]
-#[Editable]
-#[Creatable]
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 #[ORM\Table(name: 'wechat_open_platform_account', options: ['comment' => '开放平台应用'])]
 class Account implements PlainArrayInterface, AccessTokenAware
 {
     use TimestampableAware;
-    #[ExportColumn]
-    #[ListColumn(order: -1, sorter: true)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
@@ -44,26 +31,18 @@ class Account implements PlainArrayInterface, AccessTokenAware
     private ?string $id = null;
 
     #[TrackColumn]
-    #[ListColumn]
-    #[FormField]
     #[ORM\Column(type: Types::STRING, length: 120, unique: true, options: ['comment' => 'AppID'])]
     private ?string $appId = null;
 
     #[TrackColumn]
-    #[ListColumn]
-    #[FormField]
     #[ORM\Column(type: Types::STRING, length: 120, options: ['comment' => '应用Secret'])]
     private ?string $appSecret = null;
 
     #[TrackColumn]
-    #[ListColumn]
-    #[FormField]
     #[ORM\Column(type: Types::STRING, length: 120, nullable: true, options: ['comment' => 'Token'])]
     private ?string $token = null;
 
     #[TrackColumn]
-    #[ListColumn]
-    #[FormField]
     #[ORM\Column(type: Types::STRING, length: 128, nullable: true, options: ['comment' => 'AES Key'])]
     private ?string $aesKey = null;
 
@@ -74,18 +53,14 @@ class Account implements PlainArrayInterface, AccessTokenAware
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Authorizer::class)]
     private Collection $authorizers;
 
-    #[ListColumn]
-    #[FormField]
     #[TrackColumn]
     #[ORM\Column(length: 120, nullable: true, options: ['comment' => 'ComponentVerifyTicket'])]
     private ?string $componentVerifyTicket = null;
 
-    #[ListColumn]
     #[TrackColumn]
     #[ORM\Column(length: 255, nullable: true, options: ['comment' => 'ComponentAccessToken'])]
     private ?string $componentAccessToken = null;
 
-    #[ListColumn]
     #[TrackColumn]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => 'AccessToken过期时间'])]
     private ?\DateTimeInterface $componentAccessTokenExpireTime = null;

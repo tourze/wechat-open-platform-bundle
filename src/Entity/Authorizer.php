@@ -14,45 +14,29 @@ use Tourze\DoctrineIpBundle\Attribute\UpdateIpColumn;
 use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\DoctrineTrackBundle\Attribute\TrackColumn;
-use Tourze\EasyAdmin\Attribute\Action\Deletable;
-use Tourze\EasyAdmin\Attribute\Action\Editable;
-use Tourze\EasyAdmin\Attribute\Column\BoolColumn;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
-use Tourze\EasyAdmin\Attribute\Field\FormField;
-use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use WechatOfficialAccountBundle\Entity\AccessTokenAware;
 use WechatOpenPlatformBundle\Repository\AuthorizerRepository;
 
 /**
  * 因为一个公众号可能授权给多个应用，所以唯一索引会比较奇怪
  */
-#[AsPermission(title: '授权应用')]
-#[Deletable]
-#[Editable]
 #[ORM\Entity(repositoryClass: AuthorizerRepository::class)]
 #[ORM\Table(name: 'wechat_open_platform_authorizer', options: ['comment' => '授权应用'])]
 #[ORM\UniqueConstraint(name: 'wechat_open_platform_authorizer_idx_uniq', columns: ['account_id', 'app_id'])]
 class Authorizer implements PlainArrayInterface, AccessTokenAware
 {
     use TimestampableAware;
-    #[ExportColumn]
-    #[ListColumn(order: -1, sorter: true)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
     #[ORM\Column(type: Types::BIGINT, nullable: false, options: ['comment' => 'ID'])]
     private ?string $id = null;
 
-    #[BoolColumn]
     #[IndexColumn]
     #[TrackColumn]
     #[ORM\Column(type: Types::BOOLEAN, nullable: true, options: ['comment' => '有效', 'default' => 0])]
-    #[ListColumn(order: 97)]
-    #[FormField(order: 97)]
     private ?bool $valid = false;
 
-    #[ListColumn(title: '授权开放平台应用')]
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'authorizers')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Account $account = null;
