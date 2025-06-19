@@ -11,7 +11,7 @@ use WechatOpenPlatformBundle\Repository\ServerMessageRepository;
 
 #[ORM\Entity(repositoryClass: ServerMessageRepository::class)]
 #[ORM\Table(name: 'wechat_open_platform_server_message', options: ['comment' => '微信开放平台服务端消息'])]
-class ServerMessage
+class ServerMessage implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -43,8 +43,8 @@ class ServerMessage
 
     #[IndexColumn]
     #[CreateTimeColumn]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => '创建时间'])]
-    private ?\DateTimeInterface $createTime = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '创建时间'])]
+    private ?\DateTimeImmutable $createTime = null;
 
     public function getAccount(): ?Account
     {
@@ -104,15 +104,21 @@ class ServerMessage
         $this->createdFromIp = $createdFromIp;
     }
 
-    public function setCreateTime(?\DateTimeInterface $createdAt): self
+    public function setCreateTime(?\DateTimeImmutable $createdAt): self
     {
         $this->createTime = $createdAt;
 
         return $this;
     }
 
-    public function getCreateTime(): ?\DateTimeInterface
+    public function getCreateTime(): ?\DateTimeImmutable
     {
         return $this->createTime;
+    }
+
+
+    public function __toString(): string
+    {
+        return sprintf('%s #%s', 'ServerMessage', $this->id ?? 'new');
     }
 }

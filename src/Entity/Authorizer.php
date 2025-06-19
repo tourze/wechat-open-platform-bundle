@@ -24,7 +24,7 @@ use WechatOpenPlatformBundle\Repository\AuthorizerRepository;
 #[ORM\Table(name: 'wechat_open_platform_authorizer', options: ['comment' => '授权应用'])]
 #[ORM\UniqueConstraint(name: 'wechat_open_platform_authorizer_idx_uniq', columns: ['account_id', 'app_id'])]
 class Authorizer implements PlainArrayInterface, AccessTokenAware
-{
+, \Stringable{
     use TimestampableAware;
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -52,8 +52,8 @@ class Authorizer implements PlainArrayInterface, AccessTokenAware
     private ?string $authorizerAccessToken = null;
 
     #[TrackColumn]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $accessTokenExpireTime = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $accessTokenExpireTime = null;
 
     /**
      * 刷新令牌（在授权的公众号具备 API 权限时，才有此返回值），刷新令牌主要用于第三方平台获取和刷新已授权用户的 authorizer_access_token。
@@ -161,12 +161,12 @@ class Authorizer implements PlainArrayInterface, AccessTokenAware
         return $this;
     }
 
-    public function getAccessTokenExpireTime(): ?\DateTimeInterface
+    public function getAccessTokenExpireTime(): ?\DateTimeImmutable
     {
         return $this->accessTokenExpireTime;
     }
 
-    public function setAccessTokenExpireTime(?\DateTimeInterface $accessTokenExpireTime): static
+    public function setAccessTokenExpireTime(?\DateTimeImmutable $accessTokenExpireTime): static
     {
         $this->accessTokenExpireTime = $accessTokenExpireTime;
 
@@ -241,5 +241,10 @@ class Authorizer implements PlainArrayInterface, AccessTokenAware
         $this->updatedFromIp = $updatedFromIp;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getId();
     }
 }

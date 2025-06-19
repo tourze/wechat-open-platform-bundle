@@ -18,6 +18,7 @@ use WechatOpenPlatformBundle\Service\ApiService;
 #[AsCommand(name: 'wechat-open-platform:refresh-authorizer-access-token', description: '刷新授权方AccessToken')]
 class RefreshAuthorizerAccessTokenCommand extends Command
 {
+    private const NAME = 'wechat-open-platform:refresh-authorizer-access-token';
     public function __construct(
         private readonly AuthorizerRepository $authorizerRepository,
         private readonly ApiService $apiService,

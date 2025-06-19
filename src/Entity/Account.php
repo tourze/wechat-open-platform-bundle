@@ -22,7 +22,7 @@ use WechatOpenPlatformBundle\Repository\AccountRepository;
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 #[ORM\Table(name: 'wechat_open_platform_account', options: ['comment' => '开放平台应用'])]
 class Account implements PlainArrayInterface, AccessTokenAware
-{
+, \Stringable{
     use TimestampableAware;
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -62,8 +62,8 @@ class Account implements PlainArrayInterface, AccessTokenAware
     private ?string $componentAccessToken = null;
 
     #[TrackColumn]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => 'AccessToken过期时间'])]
-    private ?\DateTimeInterface $componentAccessTokenExpireTime = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => 'AccessToken过期时间'])]
+    private ?\DateTimeImmutable $componentAccessTokenExpireTime = null;
 
     #[CreatedByColumn]
     #[ORM\Column(nullable: true, options: ['comment' => '创建人'])]
@@ -185,12 +185,12 @@ class Account implements PlainArrayInterface, AccessTokenAware
         return $this;
     }
 
-    public function getComponentAccessTokenExpireTime(): ?\DateTimeInterface
+    public function getComponentAccessTokenExpireTime(): ?\DateTimeImmutable
     {
         return $this->componentAccessTokenExpireTime;
     }
 
-    public function setComponentAccessTokenExpireTime(?\DateTimeInterface $componentAccessTokenExpireTime): static
+    public function setComponentAccessTokenExpireTime(?\DateTimeImmutable $componentAccessTokenExpireTime): static
     {
         $this->componentAccessTokenExpireTime = $componentAccessTokenExpireTime;
 
@@ -235,5 +235,10 @@ class Account implements PlainArrayInterface, AccessTokenAware
     public function getAccessTokenKeyName(): string
     {
         return 'component_access_token';
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getId();
     }
 }
