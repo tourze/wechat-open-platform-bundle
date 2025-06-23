@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use WechatOpenPlatformBundle\Entity\Account;
 use WechatOpenPlatformBundle\Entity\ServerMessage;
-use WechatOpenPlatformBundle\Repository\AccountRepository;
 
 #[AsEntityListener(event: Events::prePersist, method: 'ensureLowerCase', entity: Account::class)]
 #[AsEntityListener(event: Events::preUpdate, method: 'ensureLowerCase', entity: Account::class)]
@@ -15,7 +14,6 @@ use WechatOpenPlatformBundle\Repository\AccountRepository;
 class AccountListener
 {
     public function __construct(
-        private readonly AccountRepository $accountRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }

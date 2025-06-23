@@ -3,7 +3,7 @@
 namespace WechatOpenPlatformBundle\Request\OAuth2;
 
 use HttpClientBundle\Request\ApiRequest;
-use WechatOfficialAccountBundle\Entity\Account;
+use WechatOpenPlatformBundle\Entity\OfficialAccount as Account;
 
 /**
  * OAuth2 协议中通过 code 换取 access_token

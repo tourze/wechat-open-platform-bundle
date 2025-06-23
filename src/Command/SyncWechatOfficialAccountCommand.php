@@ -11,7 +11,7 @@ use WechatOpenPlatformBundle\Repository\AuthorizerRepository;
 use WechatOpenPlatformBundle\Service\AuthorizerService;
 
 #[AsCronTask('* * * * *')]
-#[AsCommand(name: SyncWechatOfficialAccountCommand::NAME, description: '将授权信息同步一份到 WechatOfficialAccountBundle')]
+#[AsCommand(name: self::NAME, description: '将授权信息同步一份到 WechatOfficialAccountBundle')]
 class SyncWechatOfficialAccountCommand extends Command
 {
     public const NAME = 'wechat-open-platform:sync-wechat-official-account';

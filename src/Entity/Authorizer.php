@@ -44,23 +44,16 @@ class Authorizer implements PlainArrayInterface, AccessTokenAware
     #[ORM\Column(type: Types::STRING, length: 120, options: ['comment' => 'AppID'])]
     private ?string $appId = null;
 
-    /**
-     * 在授权的公众号/小程序具备 API 权限时，才有此返回值
-     */
     #[TrackColumn]
-    #[ORM\Column(type: Types::STRING, length: 200, nullable: true, options: ['comment' => '接口调用令牌'])]
+    #[ORM\Column(type: Types::STRING, length: 200, nullable: true, options: ['comment' => '接口调用令牌（在授权的公众号/小程序具备 API 权限时，才有此返回值）'])]
     private ?string $authorizerAccessToken = null;
 
     #[TrackColumn]
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => 'AccessToken过期时间'])]
     private ?\DateTimeImmutable $accessTokenExpireTime = null;
 
-    /**
-     * 刷新令牌（在授权的公众号具备 API 权限时，才有此返回值），刷新令牌主要用于第三方平台获取和刷新已授权用户的 authorizer_access_token。
-     * 一旦丢失，只能让用户重新授权，才能再次拿到新的刷新令牌。用户重新授权后，之前的刷新令牌会失效.
-     */
     #[TrackColumn]
-    #[ORM\Column(type: Types::STRING, length: 200, nullable: true, options: ['comment' => '刷新令牌'])]
+    #[ORM\Column(type: Types::STRING, length: 200, nullable: true, options: ['comment' => '刷新令牌（在授权的公众号具备 API 权限时，才有此返回值），刷新令牌主要用于第三方平台获取和刷新已授权用户的 authorizer_access_token。一旦丢失，只能让用户重新授权，才能再次拿到新的刷新令牌。用户重新授权后，之前的刷新令牌会失效'])]
     private ?string $authorizerRefreshToken = null;
 
     #[TrackColumn]

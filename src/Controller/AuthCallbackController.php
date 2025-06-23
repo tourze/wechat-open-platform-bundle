@@ -9,51 +9,47 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Tourze\WechatHelper\XML;
 use WechatOpenPlatformBundle\Entity\Account;
 use WechatOpenPlatformBundle\Entity\ServerMessage;
 use WechatOpenPlatformBundle\Event\WechatOpenPlatformServerMessageResponseEvent;
-use WechatOpenPlatformBundle\Repository\AuthorizerRepository;
-use WechatOpenPlatformBundle\Repository\ServerMessageRepository;
 use WechatOpenPlatformBundle\Service\AuthorizerService;
+use WeuiBundle\Service\NoticeService;
 
-#[Route('/wechat-open-platform')]
-class ServerController extends AbstractController
+/**
+ * 授权回调
+ */
+class AuthCallbackController extends AbstractController
 {
     use EncryptTrait;
 
     public function __construct(
-        private readonly AuthorizerService $authorizerService,
+        private readonly NoticeService $noticeService,
         private readonly EntityManagerInterface $entityManager,
+        private readonly LoggerInterface $logger,
+        private readonly AuthorizerService $authorizerService,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
-    /**
-     * 服务端回调（代开发）
-     *
-     * @see https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/ThirdParty/token/authorize_event.html
-     */
-    #[Route('/server/{appId}/{authAppId}', name: 'wechat-open-platform-server-index')]
-    public function index(
+    #[Route('/wechat-open-platform/auth-callback/{appId}', name: 'wechat-open-platform-auth-callback')]
+    public function __invoke(
         Account $account,
-        string $authAppId,
         Request $request,
-        LoggerInterface $logger,
-        AuthorizerRepository $authorizerRepository,
-        ServerMessageRepository $messageRepository,
-        EventDispatcherInterface $eventDispatcher,
     ): Response {
-        $logger->info('服务端回调收到服务端请求', [
+        $this->logger->info('授权回调收到服务端请求', [
             'content' => $request->getContent(),
             'query' => $request->query->all(),
         ]);
-        if ($request->query->get('signature') !== $this->signature([
-            $account->getToken(),
-            $request->query->get('timestamp'),
-            $request->query->get('nonce'),
-        ])) {
-            throw new BadRequestException('Invalid request signature.', 400);
+        if ($request->query->has('auth_code')) {
+            $authorizer = $this->authorizerService->createOrUpdateAuthorizer($account, $request->query->get('auth_code'));
+            if ($authorizer === null) {
+                throw new HttpException(302, '找不到授权信息');
+            }
+
+            return $this->noticeService->weuiSuccess('授权成功');
         }
 
         $message = $this->parseMessage($request->getContent());
@@ -70,7 +66,7 @@ class ServerController extends AbstractController
                     $message = XML::parse($message);
                 }
             } catch (\Throwable $exception) {
-                $logger->error('解密数据报错', [
+                $this->logger->error('解密数据报错', [
                     'exception' => $exception,
                 ]);
 
@@ -78,30 +74,19 @@ class ServerController extends AbstractController
             }
         }
 
-        // 读取回调的公众号
-        $authorizer = $authorizerRepository->findOneBy(['appId' => $authAppId]);
-        $this->authorizerService->transformToOfficialAccount($authorizer);
-
         $msg = new ServerMessage();
         $msg->setAccount($account);
         $msg->setMessage($message);
-        $msg->setAuthorizer($authorizer);
+        $this->entityManager->persist($msg);
+        $this->entityManager->flush();
 
         $event = new WechatOpenPlatformServerMessageResponseEvent();
         $event->setMessage($msg);
-        $eventDispatcher->dispatch($event);
+        $this->eventDispatcher->dispatch($event);
 
-        $this->entityManager->persist($msg);
-        $this->entityManager->flush();
-        $content = $msg->getResponse() ? XML::build($msg->getResponse()) : 'success';
+        $response = $msg->getResponse();
+        $content = is_array($response) && !empty($response) ? XML::build($response) : 'success';
 
         return new Response($content);
-    }
-
-    private function signature(array $params): string
-    {
-        sort($params, SORT_STRING);
-
-        return sha1(implode($params));
     }
 }

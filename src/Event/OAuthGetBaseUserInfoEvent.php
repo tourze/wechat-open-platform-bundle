@@ -5,7 +5,7 @@ namespace WechatOpenPlatformBundle\Event;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\EventDispatcher\Event;
 use Tourze\WechatOfficialAccountContracts\UserInterface;
-use WechatOfficialAccountBundle\Entity\Account;
+use WechatOpenPlatformBundle\Entity\OfficialAccount as Account;
 
 class OAuthGetBaseUserInfoEvent extends Event
 {

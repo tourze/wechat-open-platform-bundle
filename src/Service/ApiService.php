@@ -2,14 +2,13 @@
 
 namespace WechatOpenPlatformBundle\Service;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use HttpClientBundle\Client\ApiClient;
 use HttpClientBundle\Client\ClientTrait;
 use HttpClientBundle\Exception\HttpClientException;
 use HttpClientBundle\Request\RequestInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-use WechatOpenPlatformBundle\Repository\AccountRepository;
 use WechatOpenPlatformBundle\Request\GetComponentAccessTokenRequest;
 use WechatOpenPlatformBundle\Request\WithAccountRequest;
 use Yiisoft\Json\Json;
@@ -19,7 +18,6 @@ class ApiService extends ApiClient
     use ClientTrait;
 
     public function __construct(
-        private readonly AccountRepository $accountRepository,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
@@ -41,7 +39,7 @@ class ApiService extends ApiClient
         // 自动加上token
         if ($request instanceof WithAccountRequest) {
             $account = $request->getAccount();
-            if (!$account->getComponentAccessToken() || Carbon::now()->greaterThanOrEqualTo($account->getComponentAccessTokenExpireTime())) {
+            if ($account->getComponentAccessToken() === null || CarbonImmutable::now()->greaterThanOrEqualTo($account->getComponentAccessTokenExpireTime())) {
                 // 刷新Token
                 $tokenRequest = new GetComponentAccessTokenRequest();
                 $tokenRequest->setComponentAppId($account->getAppId());
@@ -51,7 +49,7 @@ class ApiService extends ApiClient
 
                 $account->setComponentAccessToken($tokenResponse['component_access_token']);
                 // 这里的时间，我们减少了60s
-                $account->setComponentAccessTokenExpireTime(Carbon::now()->addSeconds($tokenResponse['expires_in'] - 60));
+                $account->setComponentAccessTokenExpireTime(CarbonImmutable::now()->addSeconds($tokenResponse['expires_in'] - 60));
                 $this->entityManager->persist($account);
                 $this->entityManager->flush();
             }

@@ -35,7 +35,7 @@ class AuthorizerListener
      */
     public function serverMessageAuthorized(ServerMessage $message): void
     {
-        if ($message->getMessage()['InfoType'] ?? '' !== 'authorized') {
+        if (($message->getMessage()['InfoType'] ?? '') !== 'authorized') {
             return;
         }
         $this->authorizerService->createOrUpdateAuthorizer($message->getAccount(), $message->getAccount()['AuthorizationCode']);
@@ -55,7 +55,7 @@ class AuthorizerListener
      */
     public function serverMessageUpdateAuthorized(ServerMessage $message): void
     {
-        if ($message->getMessage()['InfoType'] ?? '' !== 'updateauthorized') {
+        if (($message->getMessage()['InfoType'] ?? '') !== 'updateauthorized') {
             return;
         }
         $this->authorizerService->createOrUpdateAuthorizer($message->getAccount(), $message->getAccount()['AuthorizationCode']);
@@ -72,7 +72,7 @@ class AuthorizerListener
      */
     public function serverMessageUnauthorized(ServerMessage $message): void
     {
-        if ($message->getMessage()['InfoType'] ?? '' !== 'unauthorized') {
+        if (($message->getMessage()['InfoType'] ?? '') !== 'unauthorized') {
             return;
         }
 
@@ -80,7 +80,7 @@ class AuthorizerListener
             'account' => $message->getAccount(),
             'appId' => $message->getMessage()['AuthorizerAppid'],
         ]);
-        if (!$authorizer) {
+        if ($authorizer === null) {
             return;
         }
         $authorizer->setValid(false);

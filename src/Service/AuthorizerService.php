@@ -2,7 +2,7 @@
 
 namespace WechatOpenPlatformBundle\Service;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Tourze\DoctrineAsyncInsertBundle\Service\AsyncInsertService as DoctrineService;
@@ -59,14 +59,14 @@ class AuthorizerService
             'account' => $account,
             'appId' => $res['authorization_info']['authorizer_appid'],
         ]);
-        if (!$authorizer) {
+        if ($authorizer === null) {
             $authorizer = new Authorizer();
             $authorizer->setAccount($account);
             $authorizer->setAppId($res['authorization_info']['authorizer_appid']);
         }
 
         $authorizer->setAuthorizerAccessToken($res['authorization_info']['authorizer_access_token'] ?? '');
-        $authorizer->setAccessTokenExpireTime(Carbon::now()->addSeconds($res['authorization_info']['expires_in']));
+        $authorizer->setAccessTokenExpireTime(CarbonImmutable::now()->addSeconds($res['authorization_info']['expires_in']));
         $authorizer->setAuthorizerRefreshToken($res['authorization_info']['authorizer_refresh_token'] ?? '');
         $authorizer->setFuncInfo($res['authorization_info']['func_info'] ?? null);
         $authorizer->setValid(true);
@@ -81,7 +81,7 @@ class AuthorizerService
         $account = $this->officialAccountRepository->findOneBy([
             'appId' => $authorizer->getAppId(),
         ]);
-        if (!$account) {
+        if ($account === null) {
             $account = new OfficialAccount();
             $account->setAppId($authorizer->getAppId());
             $account->setAppSecret('');

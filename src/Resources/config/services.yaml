@@ -19,3 +19,7 @@ services:
       - '../../Resources/'
       - '../../Contracts/'
       - '../../Tests/'
+
+  WechatOpenPlatformBundle\Service\AttributeControllerLoader:
+    tags:
+      - { name: routing.loader }

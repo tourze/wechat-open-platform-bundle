@@ -34,7 +34,7 @@ trait EncryptTrait
             } else {
                 // Handle JSON format.
                 $dataSet = json_decode($content, true);
-                if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
+                if (is_array($dataSet) && (JSON_ERROR_NONE === json_last_error())) {
                     $content = $dataSet;
                 }
             }

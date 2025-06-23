@@ -11,8 +11,7 @@ use Tourze\Arrayable\PlainArrayInterface;
 use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\DoctrineTrackBundle\Attribute\TrackColumn;
-use Tourze\DoctrineUserBundle\Attribute\CreatedByColumn;
-use Tourze\DoctrineUserBundle\Attribute\UpdatedByColumn;
+use Tourze\DoctrineUserBundle\Traits\BlameableAware;
 use WechatOfficialAccountBundle\Entity\AccessTokenAware;
 use WechatOpenPlatformBundle\Repository\AccountRepository;
 
@@ -21,9 +20,10 @@ use WechatOpenPlatformBundle\Repository\AccountRepository;
  */
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 #[ORM\Table(name: 'wechat_open_platform_account', options: ['comment' => '开放平台应用'])]
-class Account implements PlainArrayInterface, AccessTokenAware
-, \Stringable{
+class Account implements PlainArrayInterface, AccessTokenAware, \Stringable
+{
     use TimestampableAware;
+    use BlameableAware;
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
@@ -65,13 +65,9 @@ class Account implements PlainArrayInterface, AccessTokenAware
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => 'AccessToken过期时间'])]
     private ?\DateTimeImmutable $componentAccessTokenExpireTime = null;
 
-    #[CreatedByColumn]
-    #[ORM\Column(nullable: true, options: ['comment' => '创建人'])]
-    private ?string $createdBy = null;
-
-    #[UpdatedByColumn]
-    #[ORM\Column(nullable: true, options: ['comment' => '更新人'])]
-    private ?string $updatedBy = null;
+    #[TrackColumn]
+    #[ORM\Column(type: Types::STRING, length: 120, nullable: true, options: ['comment' => '第三方平台AppID'])]
+    private ?string $componentAppId = null;
 
     public function __construct()
     {
@@ -197,29 +193,19 @@ class Account implements PlainArrayInterface, AccessTokenAware
         return $this;
     }
 
-    public function setCreatedBy(?string $createdBy): self
+    public function getComponentAppId(): ?string
     {
-        $this->createdBy = $createdBy;
+        return $this->componentAppId;
+    }
+
+    public function setComponentAppId(?string $componentAppId): static
+    {
+        $this->componentAppId = $componentAppId;
 
         return $this;
     }
 
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setUpdatedBy(?string $updatedBy): self
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    public function getUpdatedBy(): ?string
-    {
-        return $this->updatedBy;
-    }public function retrievePlainArray(): array
+    public function retrievePlainArray(): array
     {
         return [
             'id' => $this->getId(),
