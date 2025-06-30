@@ -2,6 +2,8 @@
 
 namespace WechatOpenPlatformBundle\Service;
 
+use WechatOpenPlatformBundle\Exception\NotImplementedException;
+
 // use WechatOfficialAccountBundle\Request\User\GetUserBasicInfoRequest; // TODO: 需要实现
 // use WechatOfficialAccountBundle\Service\OfficialAccountClient; // TODO: 需要实现
 
@@ -21,7 +23,7 @@ class OAuth2Service
         string $code,
         string $appId = '',
     ) {
-        throw new \RuntimeException('getUserInfoByCode method needs to be reimplemented');
+        throw new NotImplementedException('getUserInfoByCode method needs to be reimplemented');
         /*
         if ($appId) {
             $account = $this->accountRepository->findOneBy(['appId' => $appId]);

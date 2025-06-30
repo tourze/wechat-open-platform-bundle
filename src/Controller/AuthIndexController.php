@@ -21,7 +21,7 @@ class AuthIndexController extends AbstractController
     ) {
     }
 
-    #[Route('/wechat-open-platform/auth/{appId}')]
+    #[Route(path: '/wechat-open-platform/auth/{appId}')]
     public function __invoke(
         Account $account,
         Request $request,

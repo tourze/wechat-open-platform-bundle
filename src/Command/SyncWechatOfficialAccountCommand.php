@@ -10,7 +10,7 @@ use Tourze\Symfony\CronJob\Attribute\AsCronTask;
 use WechatOpenPlatformBundle\Repository\AuthorizerRepository;
 use WechatOpenPlatformBundle\Service\AuthorizerService;
 
-#[AsCronTask('* * * * *')]
+#[AsCronTask(expression: '* * * * *')]
 #[AsCommand(name: self::NAME, description: '将授权信息同步一份到 WechatOfficialAccountBundle')]
 class SyncWechatOfficialAccountCommand extends Command
 {

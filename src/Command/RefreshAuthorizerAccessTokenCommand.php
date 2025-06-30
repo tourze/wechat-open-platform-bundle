@@ -14,7 +14,7 @@ use WechatOpenPlatformBundle\Repository\AuthorizerRepository;
 use WechatOpenPlatformBundle\Request\RefreshAuthorizeAccessTokenRequest;
 use WechatOpenPlatformBundle\Service\ApiService;
 
-#[AsCronTask('*/5 * * * *')]
+#[AsCronTask(expression: '*/5 * * * *')]
 #[AsCommand(name: self::NAME, description: '刷新授权方AccessToken')]
 class RefreshAuthorizerAccessTokenCommand extends Command
 {

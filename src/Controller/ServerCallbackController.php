@@ -35,7 +35,7 @@ class ServerCallbackController extends AbstractController
     ) {
     }
 
-    #[Route('/wechat-open-platform/server/{appId}/{authAppId}', name: 'wechat-open-platform-server-index')]
+    #[Route(path: '/wechat-open-platform/server/{appId}/{authAppId}', name: 'wechat-open-platform-server-index')]
     public function __invoke(
         Account $account,
         string $authAppId,

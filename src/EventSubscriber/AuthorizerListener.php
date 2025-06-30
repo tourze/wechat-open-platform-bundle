@@ -38,7 +38,7 @@ class AuthorizerListener
         if (($message->getMessage()['InfoType'] ?? '') !== 'authorized') {
             return;
         }
-        $this->authorizerService->createOrUpdateAuthorizer($message->getAccount(), $message->getAccount()['AuthorizationCode']);
+        $this->authorizerService->createOrUpdateAuthorizer($message->getAccount(), $message->getMessage()['AuthorizationCode']);
     }
 
     /**
@@ -58,7 +58,7 @@ class AuthorizerListener
         if (($message->getMessage()['InfoType'] ?? '') !== 'updateauthorized') {
             return;
         }
-        $this->authorizerService->createOrUpdateAuthorizer($message->getAccount(), $message->getAccount()['AuthorizationCode']);
+        $this->authorizerService->createOrUpdateAuthorizer($message->getAccount(), $message->getMessage()['AuthorizationCode']);
     }
 
     /**

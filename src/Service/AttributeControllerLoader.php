@@ -12,7 +12,7 @@ use WechatOpenPlatformBundle\Controller\AuthIndexController;
 use WechatOpenPlatformBundle\Controller\OAuthBaseInfoController;
 use WechatOpenPlatformBundle\Controller\ServerCallbackController;
 
-#[AutoconfigureTag('routing.loader')]
+#[AutoconfigureTag(name: 'routing.loader')]
 class AttributeControllerLoader extends Loader implements RoutingAutoLoaderInterface
 {
     private AttributeRouteControllerLoader $controllerLoader;

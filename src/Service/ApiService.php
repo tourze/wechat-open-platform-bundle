@@ -29,7 +29,7 @@ class ApiService extends ApiClient
 
     protected function getRequestMethod(RequestInterface $request): string
     {
-        return $request->getRequestMethod() ?: 'POST';
+        return $request->getRequestMethod() ?? 'POST';
     }
 
     protected function getRequestOptions(RequestInterface $request): ?array

@@ -34,7 +34,7 @@ class AuthCallbackController extends AbstractController
     ) {
     }
 
-    #[Route('/wechat-open-platform/auth-callback/{appId}', name: 'wechat-open-platform-auth-callback')]
+    #[Route(path: '/wechat-open-platform/auth-callback/{appId}', name: 'wechat-open-platform-auth-callback')]
     public function __invoke(
         Account $account,
         Request $request,
